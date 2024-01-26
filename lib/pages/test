@@ -1,0 +1,133 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+
+class FeedPage extends StatelessWidget {
+  FeedPage({super.key});
+
+  final images = [
+    "lib/assets/images/testpng1.png",
+    "lib/assets/images/testpng2.png",
+    "lib/assets/images/testpng3.png",
+    "lib/assets/images/testpng4.png",
+    "lib/assets/images/testpng5.png",
+  ];
+  int activeIndex = 0;
+
+  @override
+  void setState() {
+    super.setState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('フィード'),),
+
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Row(
+                children: [
+                  Image.network(
+                  'https://static-00.iconduck.com/assets.00/instagram-icon-1024x1024-8qt57uwd.png',
+                  width: 30,
+                  height: 30,
+                  ),
+                SizedBox(width: 4.0,),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          'Instagram',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            
+                          ),
+                        ),
+                        Image.network(
+                          'https://static-00.iconduck.com/assets.00/instagram-icon-1024x1024-8qt57uwd.png',
+                          width: 10,
+                          height: 10,
+                        ),
+                      ],
+                    ),
+                    Text('サンディエゴ',
+                    style: TextStyle(
+                      fontSize: 10,
+                    ),
+                    ),
+                  ],
+                ),
+                const Spacer(),
+                TextButton(
+                      onPressed: () {}, 
+                      child: Text('•••'),
+                      style: ButtonStyle(
+                        padding: MaterialStateProperty.all(EdgeInsets.zero),
+                        minimumSize: MaterialStateProperty.all(Size.zero),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            //横スクロール↓
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CarouselSlider.builder(
+                    options: CarouselOptions(
+                      height: 400,
+                      initialPage: 0,
+                      viewportFraction: 1,
+                      enlargeCenterPage: true,
+                      onPageChanged: (index, reason) => setState(() {
+                        activeIndex = index;
+                      }),
+                    ),
+                    itemCount: images.length,
+                    itemBuilder: (context, index, realIndex) {
+                      final path = images[index];
+                      return buildImage(path, index);
+                    },
+                  ),
+                  SizedBox(height: 20),
+                  buildIndicator()
+                ],
+              ),
+            ),
+          ],
+        ),
+
+        ),
+      );
+  }
+
+  Widget buildImage(path, index) => Container(
+    //画像間の隙間
+    margin: EdgeInsets.symmetric(horizontal: 13),
+    color: Colors.grey,
+    child: Image.asset(
+      path,
+      fit: BoxFit.cover,
+    ),
+  );
+
+  Widget buildIndicator() => AnimatedSmoothIndicator(
+    activeIndex: activeIndex,
+    count: images.length,
+    //エフェクトはドキュメントを見た方がわかりやすい
+    effect: JumpingDotEffect(
+        dotHeight: 20,
+        dotWidth: 20,
+        activeDotColor: Colors.green,
+        dotColor: Colors.black12),
+  );
+}

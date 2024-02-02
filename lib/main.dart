@@ -37,6 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _minute = 0;
   Timer? _timer;
   bool _isRunning = false;
+  //testing
+  List<String> rapLists = [];
+
 
   @override
   void initState() {
@@ -80,16 +83,38 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    resetTimer();
+                    _isRunning? rapTimer() : resetTimer();
                   },
-                  child: const Text(
-                    'reset',
+                  child: Text(
+                    _isRunning ? 'rap' : 'reset',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: _isRunning ? Colors.pink : Colors.black,
                       fontWeight: FontWeight.bold,
                     ),
                     ),
                   ),
+              ],
+            ),
+            //testing
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ListView.builder(
+                  itemCount: rapLists.length,
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        rapLists[index],
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ],
@@ -141,7 +166,15 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _second = 0;
       _minute = 0;
+      rapLists.clear();
       _isRunning = false;
+    });
+  }
+  //testing
+  void rapTimer() {
+    setState(() {
+      int newItemIndex = rapLists.length + 1;
+      rapLists.add('${_minute.toString().padLeft(2, '0')}:${_second.toStringAsFixed(2).padLeft(5,'0')}');
     });
   }
 }

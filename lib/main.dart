@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:test/next_page.dart';
 
@@ -57,8 +56,8 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              _minute.toString().padLeft(2, '0') + ':' + _second.toStringAsFixed(2).padLeft(5,'0'),
-              style: TextStyle(
+              '${_minute.toString().padLeft(2, '0')}:${_second.toStringAsFixed(2).padLeft(5,'0')}',
+              style: const TextStyle(
                 fontSize: 100,
                 fontWeight: FontWeight.bold,
               ),
@@ -83,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     resetTimer();
                   },
-                  child: Text(
+                  child: const Text(
                     'reset',
                     style: TextStyle(
                       color: Colors.black,
@@ -111,17 +110,23 @@ class _MyHomePageState extends State<MyHomePage> {
             _second+=0.01;
             _second=double.parse(_second.toStringAsFixed(2));
           });
-        // if(_second == 10){
-        //   resetTimer();
-        //   Navigator.push(
-        //     context,
-        //     MaterialPageRoute(builder: (context) => NextPage()),
-        //   );
-        // }
+        if(_minute == 2){
+          resetTimer();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const NextPage()),
+          );
+        }
         if(_second == 60){
+          //秒針のリセット
           setState(() {
             _second = 0;
             _minute++;
+          });
+        }
+        if(_minute == 60){
+          setState(() {
+          _minute = 0;
           });
         }
         }

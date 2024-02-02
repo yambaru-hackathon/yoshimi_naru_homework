@@ -11,7 +11,7 @@ class NextPage extends StatelessWidget {
       ),
       body: const Center(
         child: Text(
-          '10秒達成おめでとう',
+          '2分達成おめでとう',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             color: Colors.black,

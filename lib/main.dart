@@ -133,7 +133,6 @@ class _MyHomePageState extends State<MyHomePage> {
         (timer) { 
           setState(() {
             _second+=0.01;
-            _second=double.parse(_second.toStringAsFixed(2));
           });
         if(_minute == 2){
           resetTimer();
